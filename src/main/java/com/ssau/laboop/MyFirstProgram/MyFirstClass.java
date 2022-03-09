@@ -1,6 +1,6 @@
-package MyFirstProgram;
+package com.ssau.laboop.MyFirstProgram;
 
-import MyFirstProgram.myfirstpackage.MySecondClass;
+import com.ssau.laboop.MyFirstProgram.myfirstpackage.MySecondClass;
 
 
 public class MyFirstClass {

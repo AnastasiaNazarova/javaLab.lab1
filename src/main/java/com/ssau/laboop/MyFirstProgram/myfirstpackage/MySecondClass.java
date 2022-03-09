@@ -1,7 +1,8 @@
-package MyFirstProgram.myfirstpackage;
+package com.ssau.laboop.MyFirstProgram.myfirstpackage;
 
 public class MySecondClass{
     int firstValue, secondValue;
+
     public MySecondClass(int firstValue, int secondValue)
     {
         this.firstValue = firstValue;

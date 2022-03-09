@@ -1,5 +1,6 @@
 package functions;
 
+import com.ssau.laboop.functions.impl.IdentityFunction;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
