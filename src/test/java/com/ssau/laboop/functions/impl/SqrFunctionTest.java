@@ -1,4 +1,4 @@
-package functions;
+package com.ssau.laboop.functions.impl;
 
 import com.ssau.laboop.functions.impl.SqrFunction;
 import org.junit.jupiter.api.Test;

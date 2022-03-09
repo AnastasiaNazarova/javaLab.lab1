@@ -1,4 +1,4 @@
-package functions;
+package com.ssau.laboop.functions.impl;
 
 import com.ssau.laboop.functions.impl.CompositeFunction;
 import com.ssau.laboop.functions.impl.IncFunction;
