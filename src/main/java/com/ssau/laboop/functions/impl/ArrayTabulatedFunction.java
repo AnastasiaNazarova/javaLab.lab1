@@ -1,11 +1,13 @@
 package com.ssau.laboop.functions.impl;
 
 import com.ssau.laboop.functions.AbstractTabulatedFunction;
+import com.ssau.laboop.functions.Insertable;
 import com.ssau.laboop.functions.MathFunction;
+import com.ssau.laboop.functions.Removable;
 
 import java.util.Arrays;
 
-public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
+public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements Insertable, Removable {
 
     private double[] xValues, yValues; // массив области определения и области значений
     private int count;// длина массива
@@ -125,5 +127,62 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
     @Override
     protected double extrapolateRight(double x) {
         return interpolate(x, xValues[count-2], xValues[count-1], yValues[count-2], yValues[count-1]);
+    }
+
+    @Override
+    public void insert(double x, double y) {
+        int indexX = indexOfX(x);
+        if (indexX != -1) {
+            setY(indexX, y);
+        }
+        else {
+            indexX = x < xValues[0] ? 0 : floorIndexOfX(x);
+            double[] xTmp = new double[count + 1];
+            double[] yTmp = new double[count + 1];
+            if (indexX == 0) {
+                xTmp[0] = x;
+                yTmp[0] = y;
+                System.arraycopy(xValues, 0, xTmp, 1, count);
+                System.arraycopy(yValues, 0, yTmp, 1, count);
+            }
+            else if (indexX == count) {
+                System.arraycopy(xValues, 0, xTmp, 0, count);
+                System.arraycopy(yValues, 0, yTmp, 0, count);
+                xTmp[count] = x;
+                yTmp[count] = y;
+            }
+            else {
+                System.arraycopy(xValues, 0, xTmp, 0, indexX + 1);
+                System.arraycopy(yValues, 0, yTmp, 0, indexX + 1);
+                xTmp[indexX + 1] = x;
+                yTmp[indexX + 1] = y;
+                System.arraycopy(xValues, indexX + 1, xTmp, indexX + 2, (count - indexX - 1));
+                System.arraycopy(yValues, indexX + 1, yTmp, indexX + 2, (count - indexX - 1));
+            }
+            count++;
+            this.xValues = xTmp;
+            this.yValues = yTmp;
+        }
+    }
+
+    @Override
+    public void remove(int index) {
+        double[] xTmp = new double[count - 1];
+        double[] yTmp = new double[count - 1];
+        if (index == 0) {
+            System.arraycopy(xValues, 1, xTmp, 0, count - 1);
+            System.arraycopy(yValues, 1, yTmp, 0, count - 1);
+        } else if (index == (count - 1)) {
+            System.arraycopy(xValues, 0, xTmp, 0, count - 1);
+            System.arraycopy(yValues, 0, yTmp, 0, count - 1);
+        } else {
+            System.arraycopy(xValues, 0, xTmp, 0, index);
+            System.arraycopy(yValues, 0, yTmp, 0, index);
+            System.arraycopy(xValues, index + 1, xTmp, index, (count - index - 1));
+            System.arraycopy(yValues, index + 1, yTmp, index, (count - index - 1));
+        }
+        count--;
+        this.xValues = xTmp;
+        this.yValues = yTmp;
     }
 }

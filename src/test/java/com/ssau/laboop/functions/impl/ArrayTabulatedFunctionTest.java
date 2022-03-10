@@ -98,4 +98,17 @@ class ArrayTabulatedFunctionTest {
     @Test
     void extrapolateRight() {
     }
+
+    @Test
+    void insert() {
+        ArrayTabulatedFunction firstArray = initializeArrayThroughTwoArrays();
+        firstArray.insert(-2, 5);
+        assertEquals(firstArray.getY(0), 5);
+        firstArray.insert(6, 10);
+        assertEquals(firstArray.getY(6), 10);
+    }
+
+    @Test
+    void remove() {
+    }
 }
