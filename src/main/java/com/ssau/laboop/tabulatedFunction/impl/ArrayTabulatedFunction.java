@@ -1,11 +1,13 @@
-package com.ssau.laboop.functions.impl;
+package com.ssau.laboop.tabulatedFunction.impl;
 
-import com.ssau.laboop.functions.AbstractTabulatedFunction;
-import com.ssau.laboop.functions.Insertable;
+import com.ssau.laboop.tabulatedFunction.AbstractTabulatedFunction;
+import com.ssau.laboop.tabulatedFunction.Insertable;
 import com.ssau.laboop.functions.MathFunction;
-import com.ssau.laboop.functions.Removable;
+import com.ssau.laboop.tabulatedFunction.Removable;
 
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements Insertable, Removable {
 
@@ -14,6 +16,10 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
 
     public ArrayTabulatedFunction(double[] xValues, double[] yValues) {
         count = xValues.length;// если длины массивов разные, то выкинуть исключение
+        checkLengthIsTheSame(xValues,yValues);
+        checkSorted(xValues);
+
+        if(count<2) throw new IllegalArgumentException("Длина массива меньше минимальной (минимум 2 элемента)");
         this.xValues = Arrays.copyOf(xValues, count);
         this.yValues = Arrays.copyOf(yValues, count);
     }
@@ -26,6 +32,7 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
      * */
     public ArrayTabulatedFunction(MathFunction source, double xFrom, double xTo, int count) {
         this.count = count;
+        if(count<2) throw new IllegalArgumentException("Длина массива меньше минимальной (минимум 2 элемента)");
         xValues = new double[count];
         yValues = new double[count];
         if (xTo < xFrom) {
@@ -56,19 +63,19 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
 
     //Метод, получающий значение аргумента x по номеру индекса
     @Override
-    public double getX(int index) {
+    public double getX(int index) throws ArrayIndexOutOfBoundsException {
         return xValues[index];
     }
 
     //Метод, получающий значение аргумента y по номеру индекса
     @Override
-    public double getY(int index) {
+    public double getY(int index) throws ArrayIndexOutOfBoundsException {
         return yValues[index];
     }
 
     //Метод, задающий значение y по номеру индекса
     @Override
-    public void setY(int index, double value) {
+    public void setY(int index, double value)throws ArrayIndexOutOfBoundsException {
         yValues[index] = value;
     }
 
@@ -108,7 +115,7 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
     @Override
     protected int floorIndexOfX(double x) {
 
-        if(x < xValues[0]) return 0;
+        if(x < xValues[0]) throw new IllegalArgumentException("Аргумент x меньше, чем минимальное значение табуляции");
         for (int i = 0; i < count; i++) {
             if (xValues[i] > x) {
                 return i - 1;
@@ -184,5 +191,23 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
         count--;
         this.xValues = xTmp;
         this.yValues = yTmp;
+    }
+
+    @Override
+    public Iterator<Point> iterator() {
+        return new Iterator<>() {
+            int i = 0;
+
+            public boolean hasNext() {
+                return i != count;
+            }
+
+            public Point next() {
+                if (i == count) {
+                    throw new NoSuchElementException();
+                }
+                return new Point(xValues[i], yValues[i++]);
+            }
+        };
     }
 }

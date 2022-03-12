@@ -1,6 +1,9 @@
-package com.ssau.laboop.functions;
+package com.ssau.laboop.tabulatedFunction;
 
-public interface TabulatedFunction extends MathFunction{
+import com.ssau.laboop.functions.MathFunction;
+import com.ssau.laboop.tabulatedFunction.impl.Point;
+
+public interface TabulatedFunction extends MathFunction, Iterable<Point> {
     int getCount();//Метод получения количества табулированных значений
     double getX(int index);//Метод, получающий значение аргумента x по номеру индекса
     double getY(int index);//Метод, получающий значение y по номеру индекса

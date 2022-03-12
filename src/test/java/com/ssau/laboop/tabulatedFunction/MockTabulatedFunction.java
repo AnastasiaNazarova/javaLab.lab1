@@ -1,6 +1,11 @@
-package com.ssau.laboop.functions;
+package com.ssau.laboop.tabulatedFunction;
 
-public class MockTabulatedFunction extends AbstractTabulatedFunction{
+import com.ssau.laboop.tabulatedFunction.AbstractTabulatedFunction;
+import com.ssau.laboop.tabulatedFunction.impl.Point;
+
+import java.util.Iterator;
+
+public class MockTabulatedFunction extends AbstractTabulatedFunction {
 
     private final double x0 = 0;
     private final double x1 = 1;
@@ -73,5 +78,10 @@ public class MockTabulatedFunction extends AbstractTabulatedFunction{
     @Override
     protected double extrapolateRight(double x) {
         return interpolate(x, x0, x1, y0, y1);
+    }
+
+    @Override
+    public Iterator<Point> iterator() {
+        return null;
     }
 }
