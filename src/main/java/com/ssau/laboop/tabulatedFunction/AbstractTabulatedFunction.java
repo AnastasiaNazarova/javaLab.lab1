@@ -2,6 +2,7 @@ package com.ssau.laboop.tabulatedFunction;
 
 import com.ssau.laboop.exceptions.ArrayIsNotSortedException;
 import com.ssau.laboop.exceptions.DifferentLengthOfArraysException;
+import com.ssau.laboop.tabulatedFunction.impl.Point;
 
 abstract public class AbstractTabulatedFunction implements TabulatedFunction {
 
@@ -53,5 +54,22 @@ abstract public class AbstractTabulatedFunction implements TabulatedFunction {
         {
             if(xValues[i]>xValues[i+1]) throw new ArrayIsNotSortedException("Массив не отсортирован");
         }
+    }
+
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(getClass().getSimpleName()+" size = "+getCount()+"\n");
+        for (Point point : this) {
+            stringBuilder
+                    .append("[")
+                    .append(point.x)
+                    .append("; ")
+                    .append(point.y)
+                    .append("]\n");
+        }
+        stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+        return stringBuilder.toString();
     }
 }

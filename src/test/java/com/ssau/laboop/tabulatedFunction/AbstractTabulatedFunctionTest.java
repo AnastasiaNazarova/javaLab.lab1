@@ -3,6 +3,7 @@ package com.ssau.laboop.tabulatedFunction;
 import com.ssau.laboop.exceptions.ArrayIsNotSortedException;
 import com.ssau.laboop.exceptions.DifferentLengthOfArraysException;
 import com.ssau.laboop.tabulatedFunction.MockTabulatedFunction;
+import com.ssau.laboop.tabulatedFunction.impl.ArrayTabulatedFunction;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -58,4 +59,11 @@ class AbstractTabulatedFunctionTest {
     }
 
 
+    @Test
+    void testToString() {
+        double[] xValues = new double[]{1., 2., 3.};
+        double[] yValues = new double[]{2, 4., 6.};
+        TabulatedFunction tabulatedFunction = new ArrayTabulatedFunction(xValues,yValues);
+        assertEquals(tabulatedFunction.toString(), "ArrayTabulatedFunction size = 3\n[1.0; 2.0]\n[2.0; 4.0]\n[3.0; 6.0]");
+    }
 }
